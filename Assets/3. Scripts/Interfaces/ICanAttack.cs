@@ -4,5 +4,7 @@ using UnityEngine;
 
 public interface ICanAttack
 {
-    IEnumerator Attack(ICanDamaged target, ISkill skill);
+    bool stoptimer { get; set; }
+
+    void Attack(ICanDamaged target, ISkill skill);
 }
