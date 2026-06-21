@@ -9,8 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdb48de6b4faca749b5ae4fee4c80f02, type: 3}
-  m_Name: OurOne
+  m_Script: {fileID: 11500000, guid: 6807202610748a147bc382b5fc2b1656, type: 3}
+  m_Name: Slash
   m_EditorClassIdentifier: 
-  CharactorName: "\uC8FC\uC778\uACF5 1"
-  CharactorImage: {fileID: 0}
+  skillname: "\uBCA0\uAE30"
+  skillicon: {fileID: 0}
+  useactcount: 2
+  skillblabla: 
+  mytype: 0
+  Mindamage: 4
+  Maxdamage: 7

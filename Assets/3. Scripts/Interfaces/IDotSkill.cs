@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICanDamaged
+public interface IDotSkill
 {
-    public event Action OnDamaged;
+    DotDamage[] givedots {  get; }
 
-    void Damaged();
+    int[] dotcount { get; }
 }
