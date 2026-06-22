@@ -4,20 +4,33 @@ using UnityEngine;
 public abstract class Unit : MonoBehaviour
 {
     [Header("기본 정보")]
+    public DefultUnitData unitdata;
     public string charactorName;
     public Skill[] skills;
 
-    [Header("스탯")]
-    public int hp;
-    public int stamina;
+    public int hp { get; set; }
+    public int stamina { get; set; }
 
-    public int actcount;
-    public float dodge_persent;
+    public int actcount { get; set; }
+    public float dodge_persent { get; set; }
 
     [Header("시스템")]
     public Unit[] targetedunit;
     public Skill selectedskill;
 
+
+    void Start()
+    {
+        FightManager.fight.OnFightStarted += ResetToDefultValue;
+    }
+
+    void ResetToDefultValue()
+    {
+        hp = unitdata.defulthp;
+        stamina = unitdata.defultstamina;
+        actcount = unitdata.defultactcount;
+        dodge_persent = unitdata.defultdodge_persent;
+    }
 
     // 템플릿들
     public void DefultHit(ICanDamaged target, int damage)

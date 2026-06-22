@@ -15,7 +15,9 @@ public class FightManager : MonoBehaviour
     public Transform OurRange;
     public Transform EnemyRange;
 
-    public Dictionary<float, Skill> skillList = new Dictionary<float, Skill>();
+    public Dictionary<float, Action> skillList = new Dictionary<float, Action>();
+    public float timer;
+    public bool ifindtarget;
 
     public event Action OnFightStarted; // 전투 돌입 시
     public event Action OnWaitStarted; // 명령 페이즈 시작
@@ -48,6 +50,13 @@ public class FightManager : MonoBehaviour
     public TMP_Text skillexplanation;
     public Transform blablaacs_transform;
 
+    public GameObject timeline;
+    public Image timelinefill;
+    public Transform arrow_transform;
+    public GameObject pre_arrows;
+    public GameObject enemy_arrows;
+    public GameObject player_arrows;
+
 
 
     private void Awake()
@@ -66,20 +75,13 @@ public class FightManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Action wait = () => StartCoroutine(WaitStart());
-        OnWaitStarted += wait;
+        StartCoroutine(StartStart());
 
-        Action fight = () =>
+        Action end = () =>
         {
-            StartCoroutine(StartStart());
-            turncount = 1;
+            turncount++;
         };
-        OnFightStarted += fight;
-
-        Action end = () => turncount++;
         OnTurnFinished += end;
-
-        OnFightStarted?.Invoke();
     }
 
     // Update is called once per frame
@@ -101,6 +103,11 @@ public class FightManager : MonoBehaviour
                     NowSelectUnit(unitselectednum + 1);
                 }
             }
+
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+                StartCoroutine(TurnFinish());
+            }
         }
     }
 
@@ -108,6 +115,10 @@ public class FightManager : MonoBehaviour
     {
         startP.SetActive(true);
         waitP.SetActive(false);
+
+        turncount = 1;
+        timeline.SetActive(false);
+        timelinefill.gameObject.SetActive(false);
 
         upMage.sizeDelta = new Vector2(1944f, 0f);
         downMage.sizeDelta = new Vector2(1944f, 0f);
@@ -122,24 +133,27 @@ public class FightManager : MonoBehaviour
         CanvasGroup can = startP.GetComponent<CanvasGroup>();
         float second = 2f;
 
+        OnFightStarted?.Invoke();
         StartCoroutine(UIMovement.UIMove.FadeOut(can, second));
 
         yield return new WaitForSeconds(second + 0.2f);
 
-        OnWaitStarted?.Invoke();
+        StartCoroutine(WaitStart());
     }
 
 
     IEnumerator WaitStart()
     {
+        OnWaitStarted?.Invoke();
         waitP.SetActive(false);
 
-        StartCoroutine(SizeSetAnimation(upMage, new Vector2(1944, 94.3f), 3.5f));
+        StartCoroutine(SizeSetAnimation(upMage, new Vector2(1944, 197.9f), 3.5f));
         StartCoroutine(SizeSetAnimation(downMage, new Vector2(1944, 272.3f), 3.5f));
 
         yield return new WaitForSeconds(1.5f);
 
         waitP.SetActive(true);
+        timeline.SetActive(true);
         turnT.text = $"<size=60><b>{turncount}</b></size>Turn";
 
         unitselectednum = OurRange.childCount - 1; // 항상 맨 앞의 놈부터 보여줄것
@@ -186,6 +200,7 @@ public class FightManager : MonoBehaviour
             SkillIcon icon = b.GetComponent<SkillIcon>();
             icon.skillicon = nowselectedUnit.skills[i].skillicon;
             icon.myskill = nowselectedUnit.skills[i];
+            icon.mymy = nowselectedUnit;
         }
 
         for (int i = 0; i < nowselectedUnit.actcount; i++)
@@ -199,7 +214,7 @@ public class FightManager : MonoBehaviour
     public void SkillBlaBla(GameObject me)
     {
         skillblabla.SetActive(true);
-        if(blablaacs_transform.childCount != 0)
+        if (blablaacs_transform.childCount != 0)
         {
             for (int i = 0; i < blablaacs_transform.childCount; i++)
             {
@@ -218,6 +233,18 @@ public class FightManager : MonoBehaviour
             }
         }
 
+        string howtoattack = null;
+        switch (nowskill.mytype)
+        {
+            case Skill.skilltype.closerange:
+                howtoattack = "근거리";
+                break;
+            case Skill.skilltype.longrange:
+                howtoattack = "원거리";
+                break;
+        }
+        skilltype.text = howtoattack;
+
         string youarewhatskill = null;
         switch (nowskill)
         {
@@ -229,9 +256,51 @@ public class FightManager : MonoBehaviour
         skillexplanation.text = youarewhatskill + "\n" + nowskill.skillblabla;
     }
 
+    public void TargetFind(Unit actor, Skill skill)
+    {
+        ifindtarget = true;
+
+        for(int i = 0; i < EnemyRange.childCount; i++)
+        {
+            EnemyRange.GetChild(i).transform.Find("Select").gameObject.SetActive(true);
+        }
+    }
+
+    public void ActSet(Unit actor, Skill skill, Unit[] target)
+    {
+        GameObject arrow = enemy_arrows;
+        if (actor.transform.parent.name == "OurRange")
+        {
+            arrow = player_arrows;
+        }
+
+        Action actready = () =>
+        {
+            actor.selectedskill = skill;
+        };
+
+        float timing = (float)Math.Round(skill.timing, 1);
+
+        skillList.Add(timing, actready);
+        float posx = 0;
+        switch(timing)
+        {
+            case 0.5f:
+                posx = -401.2f;
+                break;
+            case 1.5f:
+                posx = 0;
+                break;
+        }
+
+        GameObject b = Instantiate(pre_arrows, new Vector2(posx, -82.3f), Quaternion.identity, arrow_transform);
+        Transform a = b.transform;
+        Instantiate(arrow, a);
+    }
+
     IEnumerator SizeSetAnimation(RectTransform what, Vector2 target, float speed)
     {
-        while (what.sizeDelta != target)
+        while ((what.sizeDelta - target).sqrMagnitude > 0.001f)
         {
             float x = Mathf.Lerp(what.sizeDelta.x, target.x, Time.deltaTime * speed);
             float y = Mathf.Lerp(what.sizeDelta.y, target.y, Time.deltaTime * speed);
@@ -244,5 +313,41 @@ public class FightManager : MonoBehaviour
     public void TurnStart()
     {
         OnTurnStarted?.Invoke();
+    }
+
+    IEnumerator Act()
+    {
+        float mftimer = 0f;
+
+        timer = 0;
+        timelinefill.gameObject.SetActive(true);
+
+        while (timer != 3)
+        {
+            timer += Time.deltaTime;
+            mftimer = (float)Math.Round(timer, 1);
+
+            foreach (KeyValuePair<float, Action> list in skillList)
+            {
+                if (list.Key == mftimer)
+                {
+                    list.Value?.Invoke();
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    IEnumerator TurnFinish()
+    {
+        waitP.SetActive(false);
+        timeline.SetActive(false);
+
+        OnTurnFinished?.Invoke();
+        StartCoroutine(SizeSetAnimation(upMage, new Vector2(1944, 0f), 7f));
+        yield return StartCoroutine(SizeSetAnimation(downMage, new Vector2(1944, 0f), 7f)); ;
+
+        StartCoroutine(WaitStart());
     }
 }

@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6807202610748a147bc382b5fc2b1656, type: 3}
-  m_Name: Slash
+  m_Script: {fileID: 11500000, guid: 52809357c4c4fa645b62eadf8bee9429, type: 3}
+  m_Name: OurTwo
   m_EditorClassIdentifier: 
-  skillname: "\uBCA0\uAE30"
-  skillicon: {fileID: 0}
-  useactcount: 2
-  skillblabla: 
-  mytype: 0
-  Mindamage: 4
-  Maxdamage: 7
+  charactorName: "\uC26C\uACE0\uC2F6\uB2E4"
+  defulthp: 13
+  defultstamina: 4
+  defultactcount: 2
+  defultdodge_persent: 15

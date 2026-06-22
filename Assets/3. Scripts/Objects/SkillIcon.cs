@@ -9,6 +9,7 @@ public class SkillIcon : MonoBehaviour
 {
     public Sprite skillicon;
     public Skill myskill;
+    public Unit mymy;
     bool isclick;
 
     EventTrigger trigger;
@@ -52,6 +53,7 @@ public class SkillIcon : MonoBehaviour
     {
         FightManager.fight.SkillBlaBla(gameObject);
         isclick = true;
+        FightManager.fight.TargetFind(mymy, myskill);
     }
 
     void OnEnter(PointerEventData data)

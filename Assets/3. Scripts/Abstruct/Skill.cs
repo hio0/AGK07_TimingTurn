@@ -9,6 +9,7 @@ public abstract class Skill : ScriptableObject
     public int useactcount;
     [TextArea]
     public string skillblabla;
+    public float timing;
 
     public enum skilltype
     {
