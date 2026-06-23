@@ -294,8 +294,14 @@ public class FightManager : MonoBehaviour
         }
 
         GameObject b = Instantiate(pre_arrows, new Vector2(posx, -82.3f), Quaternion.identity, arrow_transform);
+
         Transform a = b.transform;
-        Instantiate(arrow, a);
+        GameObject arr = Instantiate(arrow, a);
+
+        arr.TryGetComponent<Arrow>(out Arrow r);
+        r.myskill = skill;
+        r.me = actor;
+        r.targets = target;
     }
 
     IEnumerator SizeSetAnimation(RectTransform what, Vector2 target, float speed)
