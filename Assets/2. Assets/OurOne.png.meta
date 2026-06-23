@@ -113,10 +113,10 @@ TextureImporter:
       name: OurOne_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 837
-        width: 7
-        height: 4
+        x: 10
+        y: 674
+        width: 828
+        height: 451
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c913bb82467afe04f936efcdcd0be4b3
-      internalID: -667059113
+      spriteID: 0871e74d643a30f468391aad994d5ab7
+      internalID: -663872399
       vertices: []
       indices: 
       edges: []
@@ -134,10 +134,10 @@ TextureImporter:
       name: OurOne_1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 687
-        width: 258
-        height: 500
+        x: 967
+        y: 683
+        width: 284
+        height: 470
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,8 +145,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6142900bebf036743a43bf8540081641
-      internalID: -101130205
+      spriteID: 27ee19a527bcbd7408385921e737ebd9
+      internalID: -1887978362
       vertices: []
       indices: 
       edges: []
@@ -155,10 +155,10 @@ TextureImporter:
       name: OurOne_2
       rect:
         serializedVersion: 2
-        x: 323
-        y: 690
-        width: 284
-        height: 471
+        x: 1298
+        y: 680
+        width: 258
+        height: 499
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c19cea15e7afbb74fb4468c6d639a382
-      internalID: 1419414460
+      spriteID: 35dd55fa2c8dddb489ac401e2e37643a
+      internalID: -148716873
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: OurOne_3
+      name: OurOne_5
       rect:
         serializedVersion: 2
-        x: 738
-        y: 681
-        width: 831
-        height: 452
+        x: 58
+        y: 14
+        width: 274
+        height: 478
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,29 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7cfc41903637c534b818c96e1d360971
-      internalID: 96857510
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OurOne_4
-      rect:
-        serializedVersion: 2
-        x: 26
-        y: 790
-        width: 6
-        height: 4
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f3b8c67770e79664c8fc4301638efc5d
-      internalID: -255428930
+      spriteID: 1811089214a58e248bd776045455cf93
+      internalID: -1357088431
       vertices: []
       indices: 
       edges: []
@@ -218,10 +197,10 @@ TextureImporter:
       name: OurOne_6
       rect:
         serializedVersion: 2
-        x: 3
-        y: 16
-        width: 276
-        height: 480
+        x: 399
+        y: 12
+        width: 275
+        height: 479
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,8 +208,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce6b24eaf22844b488e754b4b38f0af8
-      internalID: -944465400
+      spriteID: 963aedbeec056634e81f79f8788d719e
+      internalID: -1978882022
       vertices: []
       indices: 
       edges: []
@@ -239,10 +218,10 @@ TextureImporter:
       name: OurOne_7
       rect:
         serializedVersion: 2
-        x: 299
-        y: 12
-        width: 276
-        height: 480
+        x: 698
+        y: 11
+        width: 275
+        height: 479
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,8 +229,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f5dd1c1a1f76d70498832282bd196fe4
-      internalID: -902566324
+      spriteID: 5350d2bbb8fb92745a3582244b7f82ac
+      internalID: -263788577
       vertices: []
       indices: 
       edges: []
@@ -260,10 +239,10 @@ TextureImporter:
       name: OurOne_8
       rect:
         serializedVersion: 2
-        x: 602
-        y: 15
-        width: 276
-        height: 480
+        x: 999
+        y: 8
+        width: 275
+        height: 479
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,8 +250,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb2689c1cb42b7346b3c6a4a472b955d
-      internalID: 1580453637
+      spriteID: 10c4d5e945914554aa85358611fb5440
+      internalID: 1281231858
       vertices: []
       indices: 
       edges: []
@@ -281,10 +260,10 @@ TextureImporter:
       name: OurOne_9
       rect:
         serializedVersion: 2
-        x: 902
-        y: 16
-        width: 276
-        height: 480
+        x: 1294
+        y: 12
+        width: 275
+        height: 479
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,29 +271,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86536f98c85df5b4b848f9aca1be3092
-      internalID: -839970327
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OurOne_10
-      rect:
-        serializedVersion: 2
-        x: 1245
-        y: 17
-        width: 276
-        height: 480
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9264184c7f59594498c0ada05daa1924
-      internalID: 1841951618
+      spriteID: ed6a2317c4ddf40408121c74cab39eee
+      internalID: 506936758
       vertices: []
       indices: 
       edges: []
@@ -330,17 +288,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      OurOne_0: -667059113
-      OurOne_1: -101130205
-      OurOne_10: 1841951618
-      OurOne_2: 1419414460
-      OurOne_3: 96857510
-      OurOne_4: -255428930
-      OurOne_5: 1195728718
-      OurOne_6: -944465400
-      OurOne_7: -902566324
-      OurOne_8: 1580453637
-      OurOne_9: -839970327
+      OurOne_0: -663872399
+      OurOne_1: -1887978362
+      OurOne_2: -148716873
+      OurOne_3: 1187311435
+      OurOne_4: -711245990
+      OurOne_5: -1357088431
+      OurOne_6: -1978882022
+      OurOne_7: -263788577
+      OurOne_8: 1281231858
+      OurOne_9: 506936758
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

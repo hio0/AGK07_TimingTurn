@@ -51,9 +51,16 @@ public class SkillIcon : MonoBehaviour
 
     void OnClick(PointerEventData data)
     {
-        FightManager.fight.SkillBlaBla(gameObject);
-        isclick = true;
-        FightManager.fight.TargetFind(mymy, myskill);
+        if (!isclick)
+        {
+            FightManager.fight.SkillBlaBla(gameObject);
+            isclick = true;
+            FightManager.fight.TargetFind(mymy, myskill);
+        }
+        else
+        { 
+            isclick = false;
+        }
     }
 
     void OnEnter(PointerEventData data)

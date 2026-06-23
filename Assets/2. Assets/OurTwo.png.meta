@@ -113,10 +113,10 @@ TextureImporter:
       name: OurTwo_0
       rect:
         serializedVersion: 2
-        x: 21
-        y: 690
-        width: 220
-        height: 482
+        x: 297
+        y: 447
+        width: 298
+        height: 535
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bac42f952c773e54f8c94096ce38bf08
-      internalID: -1204123230
+      spriteID: 8a9454eb7acd6114a95b2e68fb54e4ac
+      internalID: -1538416102
       vertices: []
       indices: 
       edges: []
@@ -134,30 +134,9 @@ TextureImporter:
       name: OurTwo_1
       rect:
         serializedVersion: 2
-        x: 267
-        y: 689
-        width: 189
-        height: 481
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8fcff3ae804b9fe4b97e983c36cea81a
-      internalID: -1929353556
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OurTwo_2
-      rect:
-        serializedVersion: 2
-        x: 484
-        y: 705
-        width: 330
+        x: 779
+        y: 709
+        width: 331
         height: 459
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -166,8 +145,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46a89a8a2ee376e46950d3036775bc95
-      internalID: -2027265090
+      spriteID: a97ddc4df59bfc24483f4b47d4957160
+      internalID: 1348510596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OurTwo_2
+      rect:
+        serializedVersion: 2
+        x: 1136
+        y: 694
+        width: 189
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5db9e408653c61e4abc93b5347d1345b
+      internalID: -1638016231
       vertices: []
       indices: 
       edges: []
@@ -176,10 +176,10 @@ TextureImporter:
       name: OurTwo_3
       rect:
         serializedVersion: 2
-        x: 1002
-        y: 441
-        width: 298
-        height: 536
+        x: 1351
+        y: 695
+        width: 219
+        height: 481
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,8 +187,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d0c677af58cf4e44a6e5467c9d82f4b
-      internalID: -873541510
+      spriteID: 393296ff66997ea48abf1dbcdd5b21e7
+      internalID: 1393517740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OurTwo_4
+      rect:
+        serializedVersion: 2
+        x: 1477
+        y: 694
+        width: 8
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 652a0fc5c48005d409fe6cf6b7254417
+      internalID: 507437129
       vertices: []
       indices: 
       edges: []
@@ -204,10 +225,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      OurTwo_0: -1204123230
-      OurTwo_1: -1929353556
-      OurTwo_2: -2027265090
-      OurTwo_3: -873541510
+      OurTwo_0: -1538416102
+      OurTwo_1: 1348510596
+      OurTwo_2: -1638016231
+      OurTwo_3: 1393517740
+      OurTwo_4: 507437129
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

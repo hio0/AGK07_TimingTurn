@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
+    public float mytiming;
     public Skill myskill;
     public Unit me;
-    public Unit[] targets;
+    public Unit targets;
 
     // Start is called before the first frame update
     void Start()

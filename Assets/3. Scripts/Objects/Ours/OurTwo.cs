@@ -7,24 +7,17 @@ public class OurTwo : Unit, ICanAttack, ICanDamaged
 {
     public event Action OnDamaged;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
         
     }
 
-    public void Attack(Unit target)
+    public void Attack()
     {
-        Action act = () => selectedskill.Effect(target);
+        Action act = () => selectedskill.Effect(targetedunit);
 
-        target.gameObject.TryGetComponent<ICanDamaged>(out ICanDamaged dam);
-        dam.OnDamaged += act;
+        DefultAttack(targetedunit, act);
     }
 
     public void Damaged()

@@ -18,6 +18,11 @@ public class FightManager : MonoBehaviour
     public Dictionary<float, Action> skillList = new Dictionary<float, Action>();
     public float timer;
     public bool ifindtarget;
+    public Unit findingunit;
+    public Skill findingskill;
+    public Unit[] nowtargets;
+
+    bool isstop;
 
     public event Action OnFightStarted; // 전투 돌입 시
     public event Action OnWaitStarted; // 명령 페이즈 시작
@@ -56,7 +61,6 @@ public class FightManager : MonoBehaviour
     public GameObject pre_arrows;
     public GameObject enemy_arrows;
     public GameObject player_arrows;
-
 
 
     private void Awake()
@@ -162,11 +166,18 @@ public class FightManager : MonoBehaviour
 
     public void NowSelectUnit(int now)
     {
-        OurRange.GetChild(unitselectednum).gameObject.transform.Find("Select").gameObject.SetActive(false);
+        OurRange.GetChild(unitselectednum).gameObject.transform.GetChild(0).Find("Select").gameObject.SetActive(false);
 
         unitselectednum = now;
-
-        GameObject b = OurRange.GetChild(unitselectednum).gameObject;
+        if (unitselectednum > OurRange.childCount)
+        {
+            unitselectednum = OurRange.childCount - 1;
+        }
+        else if (unitselectednum < 0)
+        {
+            unitselectednum = 0;
+        }
+        GameObject b = OurRange.GetChild(unitselectednum).gameObject.transform.GetChild(0).gameObject;
         nowselectedUnit = b.GetComponent<Unit>();
         b.transform.Find("Select").gameObject.SetActive(true);
 
@@ -258,28 +269,44 @@ public class FightManager : MonoBehaviour
 
     public void TargetFind(Unit actor, Skill skill)
     {
+        findingskill = null;
+        nowtargets = null;
+        findingunit = null;
+
         ifindtarget = true;
+
+        findingskill = skill;
+        findingunit = actor;
 
         for(int i = 0; i < EnemyRange.childCount; i++)
         {
-            EnemyRange.GetChild(i).transform.Find("Select").gameObject.SetActive(true);
+            EnemyRange.GetChild(i).GetChild(0).GetChild(1).Find("Select").gameObject.SetActive(true);
         }
     }
 
-    public void ActSet(Unit actor, Skill skill, Unit[] target)
+    public void ActSet(Unit target)
     {
+        for (int i = 0; i < EnemyRange.childCount; i++)
+        {
+            EnemyRange.GetChild(i).GetChild(0).GetChild(1).Find("Select").gameObject.SetActive(false);
+        }
+
         GameObject arrow = enemy_arrows;
-        if (actor.transform.parent.name == "OurRange")
+        if (findingunit.transform.parent.parent.name == "OurRange")
         {
             arrow = player_arrows;
         }
 
         Action actready = () =>
         {
-            actor.selectedskill = skill;
+            findingunit.selectedskill = findingskill;
+            findingunit.targetedunit = target;
+
+            findingunit.TryGetComponent<ICanAttack>(out ICanAttack dam);
+            dam.Attack();
         };
 
-        float timing = (float)Math.Round(skill.timing, 1);
+        float timing = (float)Math.Round(findingskill.timing, 1);
 
         skillList.Add(timing, actready);
         float posx = 0;
@@ -293,15 +320,40 @@ public class FightManager : MonoBehaviour
                 break;
         }
 
-        GameObject b = Instantiate(pre_arrows, new Vector2(posx, -82.3f), Quaternion.identity, arrow_transform);
+        bool isok = true;
+        GameObject b = null;
+        if(arrow_transform.childCount != 0)
+        {
+            for(int i = 0; i < arrow_transform.childCount; i++)
+            {
+                for(int j = 0; j < arrow_transform.GetChild(i).childCount; j++)
+                {
+                    if(arrow_transform.GetChild(i).GetChild(j).GetComponent<Arrow>().mytiming == timing)
+                    {
+                        b = arrow_transform.GetChild(i).GetChild(j).gameObject;
+                        isok = false;
+                        break;
+                    }
+                }
+            }
+        }
 
+        if(isok)
+        {
+            b = Instantiate(pre_arrows, arrow_transform);
+            b.GetComponent<RectTransform>().anchoredPosition = new Vector2(posx, -82.3f);
+        }
         Transform a = b.transform;
         GameObject arr = Instantiate(arrow, a);
 
         arr.TryGetComponent<Arrow>(out Arrow r);
-        r.myskill = skill;
-        r.me = actor;
+        r.mytiming = timing;
+        r.myskill = findingskill;
+        r.me = findingunit;
         r.targets = target;
+
+        ifindtarget = false;
+        NowSelectUnit(unitselectednum - 1);
     }
 
     IEnumerator SizeSetAnimation(RectTransform what, Vector2 target, float speed)
@@ -319,6 +371,9 @@ public class FightManager : MonoBehaviour
     public void TurnStart()
     {
         OnTurnStarted?.Invoke();
+        isstop = false;
+
+        StartCoroutine(Act());
     }
 
     IEnumerator Act()
@@ -327,22 +382,32 @@ public class FightManager : MonoBehaviour
 
         timer = 0;
         timelinefill.gameObject.SetActive(true);
+        timelinefill.fillAmount = 0;
 
         while (timer != 3)
         {
-            timer += Time.deltaTime;
-            mftimer = (float)Math.Round(timer, 1);
-
-            foreach (KeyValuePair<float, Action> list in skillList)
+            if (!isstop)
             {
-                if (list.Key == mftimer)
+                timer += Time.deltaTime;
+                mftimer = (float)Math.Round(timer, 1);
+                timelinefill.fillAmount = timer / 3;
+
+
+                foreach (KeyValuePair<float, Action> list in skillList)
                 {
-                    list.Value?.Invoke();
+                    if (list.Key == mftimer)
+                    {
+                        list.Value?.Invoke();
+                    }
                 }
             }
 
             yield return null;
         }
+
+        yield return new WaitForSeconds(1.5f);
+
+        StartCoroutine(TurnFinish());
     }
 
     IEnumerator TurnFinish()

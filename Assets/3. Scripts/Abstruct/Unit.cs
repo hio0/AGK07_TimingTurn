@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Unit : MonoBehaviour
 {
@@ -15,21 +16,39 @@ public abstract class Unit : MonoBehaviour
     public float dodge_persent { get; set; }
 
     [Header("시스템")]
-    public Unit[] targetedunit;
+    public Unit targetedunit;
     public Skill selectedskill;
-
 
     void Start()
     {
         FightManager.fight.OnFightStarted += ResetToDefultValue;
     }
 
-    void ResetToDefultValue()
+    private void Update()
+    {
+        if(hp <= 0)
+        {
+            Die();
+        }
+    }
+
+    void OnValidate()
+    {
+        Image img = gameObject.GetComponent<Image>();
+        img.SetNativeSize();
+    }
+
+    public void ResetToDefultValue()
     {
         hp = unitdata.defulthp;
         stamina = unitdata.defultstamina;
         actcount = unitdata.defultactcount;
         dodge_persent = unitdata.defultdodge_persent;
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
     }
 
     // 템플릿들

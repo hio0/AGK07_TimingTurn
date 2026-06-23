@@ -19,7 +19,7 @@ public class Stat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myunit = gameObject.GetComponentInParent<Unit>();
+        myunit = transform.parent.GetChild(0).GetComponentInParent<Unit>();
     }
 
     // Update is called once per frame

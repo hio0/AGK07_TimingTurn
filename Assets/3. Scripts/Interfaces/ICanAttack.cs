@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ICanAttack
 {
-    void Attack(Unit target);
+    void Attack();
 }

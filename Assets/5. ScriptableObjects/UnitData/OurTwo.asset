@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52809357c4c4fa645b62eadf8bee9429, type: 3}
   m_Name: OurTwo
   m_EditorClassIdentifier: 
-  charactorName: "\uC26C\uACE0\uC2F6\uB2E4"
-  defulthp: 13
-  defultstamina: 4
-  defultactcount: 2
-  defultdodge_persent: 15
+  charactorName: "\uC774\uB984\uC9C0\uC5B4\uC8FC\uAE30\uADC0\uCC2E\uC740\uB370"
+  defulthp: 17
+  defultstamina: 7
+  defultactcount: 3
+  defultdodge_persent: 5
