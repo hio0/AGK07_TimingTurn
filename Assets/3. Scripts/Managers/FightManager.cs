@@ -280,7 +280,7 @@ public class FightManager : MonoBehaviour
 
         for(int i = 0; i < EnemyRange.childCount; i++)
         {
-            EnemyRange.GetChild(i).GetChild(0).GetChild(1).Find("Select").gameObject.SetActive(true);
+            EnemyRange.GetChild(i).Find("Select").gameObject.SetActive(true);
         }
     }
 
@@ -288,7 +288,7 @@ public class FightManager : MonoBehaviour
     {
         for (int i = 0; i < EnemyRange.childCount; i++)
         {
-            EnemyRange.GetChild(i).GetChild(0).GetChild(1).Find("Select").gameObject.SetActive(false);
+            EnemyRange.GetChild(i).Find("Select").gameObject.SetActive(false);
         }
 
         GameObject arrow = enemy_arrows;
@@ -343,10 +343,9 @@ public class FightManager : MonoBehaviour
             b = Instantiate(pre_arrows, arrow_transform);
             b.GetComponent<RectTransform>().anchoredPosition = new Vector2(posx, -82.3f);
         }
-        Transform a = b.transform;
-        GameObject arr = Instantiate(arrow, a);
+        GameObject arr = Instantiate(arrow, b.transform);
 
-        arr.TryGetComponent<Arrow>(out Arrow r);
+        Arrow r = arr.GetComponent<Arrow>();
         r.mytiming = timing;
         r.myskill = findingskill;
         r.me = findingunit;
@@ -384,7 +383,7 @@ public class FightManager : MonoBehaviour
         timelinefill.gameObject.SetActive(true);
         timelinefill.fillAmount = 0;
 
-        while (timer != 3)
+        while (timer < 3)
         {
             if (!isstop)
             {

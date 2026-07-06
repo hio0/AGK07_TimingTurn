@@ -4,21 +4,15 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour, IPointerClickHandler
+public class Enemy : MonoBehaviour
 {
-    EventTrigger trigger;
     public GameObject select;
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Debug.Log("클릭됨");
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-        trigger = GetComponent<EventTrigger>();
         select.SetActive(false);
     }
 
@@ -42,7 +36,7 @@ public class Enemy : MonoBehaviour, IPointerClickHandler
 
     public void OnEnter()
     {
-        Debug.Log("Fsf");
+        Debug.Log("fs");
         if (FightManager.fight.ifindtarget)
         {
             select.SetActive(true);
