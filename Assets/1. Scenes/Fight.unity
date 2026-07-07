@@ -1519,6 +1519,7 @@ GameObject:
   - component: {fileID: 488827157}
   - component: {fileID: 488827161}
   - component: {fileID: 488827160}
+  - component: {fileID: 488827162}
   - component: {fileID: 488827159}
   - component: {fileID: 488827158}
   m_Layer: 0
@@ -1597,7 +1598,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 488827159}
           m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
           m_MethodName: OnClick
           m_Mode: 1
@@ -1660,6 +1661,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 488827156}
   m_CullTransparentMesh: 1
+--- !u!114 &488827162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488827156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdee324c495755c4fa789fecbf704622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitdata: {fileID: 11400000, guid: 5b5d7e03f7536a7429f4167181420aa5, type: 2}
+  charactorName: 
+  skills: []
+  targetedunit: {fileID: 0}
+  selectedskill: {fileID: 0}
 --- !u!1 &504173041
 GameObject:
   m_ObjectHideFlags: 0
@@ -3621,6 +3639,7 @@ MonoBehaviour:
   pre_arrows: {fileID: 7764390873133797064, guid: ade7d82459148cd43a4381f536f1e318, type: 3}
   enemy_arrows: {fileID: 8425266018232443238, guid: 3dc96c6684e708840890af962f02a501, type: 3}
   player_arrows: {fileID: 3112657073668871237, guid: 5ee5692efb3adbe498d569a37b67384a, type: 3}
+  pre_damageT: {fileID: 0}
 --- !u!4 &1170518812
 Transform:
   m_ObjectHideFlags: 0
@@ -3808,16 +3827,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1206917663}
-  m_LocalRotation: {x: -0, y: -0, z: -0.38268343, w: -0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.49007836, y: 0.4900785, z: 1.00008}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 488827157}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.000045776367, y: 167.57736}
+  m_AnchoredPosition: {x: 0, y: 61.299988}
   m_SizeDelta: {x: 45, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1206917665

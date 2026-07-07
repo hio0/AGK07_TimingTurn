@@ -17,7 +17,10 @@ public class Slash : Skill, IDamagedSkill
         int damage = UnityEngine.Random.Range(mindamage, maxdamage + 1);
 
         target.gameObject.TryGetComponent<ICanDamaged>(out ICanDamaged dam);
-        Action act = () => target.hp -= damage;
+        Action act = () =>
+        {
+            FightManager.fight.HittedReaction(damage, target);
+        };
 
         dam.OnDamaged += act;
     }

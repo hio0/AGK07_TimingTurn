@@ -62,6 +62,8 @@ public class FightManager : MonoBehaviour
     public GameObject enemy_arrows;
     public GameObject player_arrows;
 
+    public TMP_Text pre_damageT;
+
 
     private void Awake()
     {
@@ -264,7 +266,8 @@ public class FightManager : MonoBehaviour
                 break;
         }
 
-        skillexplanation.text = youarewhatskill + "\n" + nowskill.skillblabla;
+        float timing = (float)Math.Round(nowskill.timing, 1);
+        skillexplanation.text = $"<color=#F1BF3D><b>{timing}s</b></color>\n" + youarewhatskill + "\n" + nowskill.skillblabla;
     }
 
     public void TargetFind(Unit actor, Skill skill)
@@ -286,6 +289,7 @@ public class FightManager : MonoBehaviour
 
     public void ActSet(Unit target)
     {
+        Debug.Log("j");
         for (int i = 0; i < EnemyRange.childCount; i++)
         {
             EnemyRange.GetChild(i).Find("Select").gameObject.SetActive(false);
@@ -306,9 +310,16 @@ public class FightManager : MonoBehaviour
             dam.Attack();
         };
 
-        float timing = (float)Math.Round(findingskill.timing, 1);
+        float timing = (float)Math.Round(findingskill.timing, 1); // 한자릿수까지
 
-        skillList.Add(timing, actready);
+        if (skillList.ContainsKey(timing))
+        {
+            skillList[timing] += actready;
+        }
+        else
+        {
+            skillList.Add(timing, actready);
+        }
         float posx = 0;
         switch(timing)
         {
@@ -330,7 +341,7 @@ public class FightManager : MonoBehaviour
                 {
                     if(arrow_transform.GetChild(i).GetChild(j).GetComponent<Arrow>().mytiming == timing)
                     {
-                        b = arrow_transform.GetChild(i).GetChild(j).gameObject;
+                        b = arrow_transform.GetChild(i).gameObject;
                         isok = false;
                         break;
                     }
@@ -407,6 +418,13 @@ public class FightManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         StartCoroutine(TurnFinish());
+    }
+
+    public void HittedReaction(int damage, Unit target)
+    {
+        TMP_Text t = Instantiate(pre_damageT, target.transform);
+
+        t.text = damage.ToString();
     }
 
     IEnumerator TurnFinish()
