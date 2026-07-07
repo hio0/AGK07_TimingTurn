@@ -24,9 +24,10 @@ public abstract class Unit : MonoBehaviour
     void Start()
     {
         FightManager.fight.OnFightStarted += ResetToDefultValue;
+        FightManager.fight.OnWaitStarted += ResetActCount;
     }
 
-    private void Update()
+    void Update()
     {
         if(hp <= 0)
         {
@@ -48,6 +49,11 @@ public abstract class Unit : MonoBehaviour
         dodge_persent = unitdata.defultdodge_persent;
     }
 
+    void ResetActCount()
+    {
+        actcount = unitdata.defultactcount;
+    }
+
     void Die()
     {
         Destroy(gameObject);
@@ -63,16 +69,7 @@ public abstract class Unit : MonoBehaviour
     public void DefultAttack(Unit target, Action effect)
     {
         target.gameObject.TryGetComponent<ICanDamaged>(out ICanDamaged dam);
-        float r = UnityEngine.Random.Range(1f, 100f);
-
-        if(r > target.dodge_persent)
-        {
-            dam.OnDamaged += effect;
-        }
-        else
-        {
-            Debug.Log("회피");
-            return;
-        }
+        dam.OnDamaged += effect;
+        dam.Damaged();
     }
 }

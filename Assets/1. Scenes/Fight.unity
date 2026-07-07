@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 0.8862745}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1054,7 +1054,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A
+  m_text: F
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1384bc214f936b94dacb65952573b36a, type: 2}
   m_sharedMaterial: {fileID: -7103141521710960898, guid: 1384bc214f936b94dacb65952573b36a, type: 2}
@@ -1636,7 +1636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.38688147, g: 0.4339623, b: 0.39652792, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1998,7 +1998,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 506.84998}
-  m_SizeDelta: {x: 1944, y: 197.9}
+  m_SizeDelta: {x: 1944, y: 181.9}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &570338061
 MonoBehaviour:
@@ -2698,7 +2698,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: 219, y: 481}
+  m_SizeDelta: {x: 258, y: 499}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &744568442
 MonoBehaviour:
@@ -2732,14 +2732,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5228136, g: 0.5098344, b: 0.6320754, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1393517740, guid: cab8568e7df5e234b9cbc807e76261e1, type: 3}
+  m_Sprite: {fileID: -148716873, guid: c1ff76059f3df344c95989c8bb873383, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -3639,7 +3639,8 @@ MonoBehaviour:
   pre_arrows: {fileID: 7764390873133797064, guid: ade7d82459148cd43a4381f536f1e318, type: 3}
   enemy_arrows: {fileID: 8425266018232443238, guid: 3dc96c6684e708840890af962f02a501, type: 3}
   player_arrows: {fileID: 3112657073668871237, guid: 5ee5692efb3adbe498d569a37b67384a, type: 3}
-  pre_damageT: {fileID: 0}
+  turnstartB: {fileID: 825725671}
+  pre_damageT: {fileID: 6513318874553719396, guid: fcf229dff4cbf9647bb350a6bf0738f8, type: 3}
 --- !u!4 &1170518812
 Transform:
   m_ObjectHideFlags: 0
@@ -4391,7 +4392,6 @@ GameObject:
   - component: {fileID: 1431047870}
   - component: {fileID: 1431047869}
   - component: {fileID: 1431047873}
-  - component: {fileID: 1431047874}
   m_Layer: 0
   m_Name: OurOne
   m_TagString: Untagged
@@ -4475,27 +4475,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 517ec07b4ab7eb4408646955227b2d6b, type: 2}
   targetedunit: {fileID: 0}
   selectedskill: {fileID: 0}
---- !u!95 &1431047874
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1431047867}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 88cef3a26fc788a4296a8a80663cef08, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1442177690
 GameObject:
   m_ObjectHideFlags: 0

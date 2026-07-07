@@ -15,7 +15,8 @@ public class OurOne : Unit, ICanAttack, ICanDamaged
 
     public void Attack()
     {
-        Action act = () => selectedskill.Effect(targetedunit);
+        Action act = null;
+        act = () => selectedskill.Effect(targetedunit);
 
         DefultAttack(targetedunit, act);
     }

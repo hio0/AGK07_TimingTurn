@@ -61,8 +61,9 @@ public class FightManager : MonoBehaviour
     public GameObject pre_arrows;
     public GameObject enemy_arrows;
     public GameObject player_arrows;
+    public GameObject turnstartB;
 
-    public TMP_Text pre_damageT;
+    public GameObject pre_damageT;
 
 
     private void Awake()
@@ -110,7 +111,7 @@ public class FightManager : MonoBehaviour
                 }
             }
 
-            if(Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 StartCoroutine(TurnFinish());
             }
@@ -152,6 +153,7 @@ public class FightManager : MonoBehaviour
     {
         OnWaitStarted?.Invoke();
         waitP.SetActive(false);
+        turnstartB.SetActive(false);
 
         StartCoroutine(SizeSetAnimation(upMage, new Vector2(1944, 197.9f), 3.5f));
         StartCoroutine(SizeSetAnimation(downMage, new Vector2(1944, 272.3f), 3.5f));
@@ -281,7 +283,7 @@ public class FightManager : MonoBehaviour
         findingskill = skill;
         findingunit = actor;
 
-        for(int i = 0; i < EnemyRange.childCount; i++)
+        for (int i = 0; i < EnemyRange.childCount; i++)
         {
             EnemyRange.GetChild(i).Find("Select").gameObject.SetActive(true);
         }
@@ -289,7 +291,11 @@ public class FightManager : MonoBehaviour
 
     public void ActSet(Unit target)
     {
-        Debug.Log("j");
+        if (findingskill.useactcount > findingunit.actcount)
+        {
+            return;
+        }
+
         for (int i = 0; i < EnemyRange.childCount; i++)
         {
             EnemyRange.GetChild(i).Find("Select").gameObject.SetActive(false);
@@ -321,7 +327,7 @@ public class FightManager : MonoBehaviour
             skillList.Add(timing, actready);
         }
         float posx = 0;
-        switch(timing)
+        switch (timing)
         {
             case 0.5f:
                 posx = -401.2f;
@@ -331,15 +337,21 @@ public class FightManager : MonoBehaviour
                 break;
         }
 
+        findingunit.actcount -= findingskill.useactcount;
+        for (int i = 0; i < findingskill.useactcount; i++)
+        {
+            Destroy(blablaacs_transform.GetChild(i).gameObject);
+        }
+
         bool isok = true;
         GameObject b = null;
-        if(arrow_transform.childCount != 0)
+        if (arrow_transform.childCount != 0)
         {
-            for(int i = 0; i < arrow_transform.childCount; i++)
+            for (int i = 0; i < arrow_transform.childCount; i++)
             {
-                for(int j = 0; j < arrow_transform.GetChild(i).childCount; j++)
+                for (int j = 0; j < arrow_transform.GetChild(i).childCount; j++)
                 {
-                    if(arrow_transform.GetChild(i).GetChild(j).GetComponent<Arrow>().mytiming == timing)
+                    if (arrow_transform.GetChild(i).GetChild(j).GetComponent<Arrow>().mytiming == timing)
                     {
                         b = arrow_transform.GetChild(i).gameObject;
                         isok = false;
@@ -349,7 +361,7 @@ public class FightManager : MonoBehaviour
             }
         }
 
-        if(isok)
+        if (isok)
         {
             b = Instantiate(pre_arrows, arrow_transform);
             b.GetComponent<RectTransform>().anchoredPosition = new Vector2(posx, -82.3f);
@@ -363,7 +375,13 @@ public class FightManager : MonoBehaviour
         r.targets = target;
 
         ifindtarget = false;
-        NowSelectUnit(unitselectednum - 1);
+
+        int a = unitselectednum - 1;
+        if (a < 0)
+        {
+            turnstartB.SetActive(true);
+        }
+        NowSelectUnit(a);
     }
 
     IEnumerator SizeSetAnimation(RectTransform what, Vector2 target, float speed)
@@ -382,6 +400,9 @@ public class FightManager : MonoBehaviour
     {
         OnTurnStarted?.Invoke();
         isstop = false;
+        OurRange.GetChild(unitselectednum).gameObject.transform.GetChild(0).Find("Select").gameObject.SetActive(false);
+        turnP.SetActive(true);
+        waitP.SetActive(false);
 
         StartCoroutine(Act());
     }
@@ -400,16 +421,29 @@ public class FightManager : MonoBehaviour
             {
                 timer += Time.deltaTime;
                 mftimer = (float)Math.Round(timer, 1);
-                timelinefill.fillAmount = timer / 3;
+                timelinefill.fillAmount = timer / 3f;
 
-
-                foreach (KeyValuePair<float, Action> list in skillList)
+                /*
+                if (skillList.TryGetValue(mftimer, out Action action))
                 {
-                    if (list.Key == mftimer)
+                    action?.Invoke();
+                    isstop = true;
+                    
+                    if(action.GetInvocationList().Length > 1)
                     {
-                        list.Value?.Invoke();
+
                     }
+                    else
+                    {
+                        turnP.SetActive(true);
+                    }
+                    
+                    yield return new WaitForSeconds(2f);
+                    isstop = false;
+
+                    skillList.Remove(mftimer);
                 }
+                */
             }
 
             yield return null;
@@ -422,15 +456,22 @@ public class FightManager : MonoBehaviour
 
     public void HittedReaction(int damage, Unit target)
     {
-        TMP_Text t = Instantiate(pre_damageT, target.transform);
+        RectTransform rec = target.GetComponent<RectTransform>();
+        Vector2 vec = new Vector2(rec.anchoredPosition.x, rec.anchoredPosition.y);
 
-        t.text = damage.ToString();
+        GameObject b = Instantiate(pre_damageT, vec, Quaternion.Euler(0,0,0), turnP.transform);
     }
 
     IEnumerator TurnFinish()
     {
-        waitP.SetActive(false);
+        turnP.SetActive(false);
         timeline.SetActive(false);
+        timelinefill.gameObject.SetActive(false);
+        for (int i = 0; i < arrow_transform.childCount; i++)
+        {
+            Destroy(arrow_transform.GetChild(i).gameObject);
+        }
+        skillList.Clear();
 
         OnTurnFinished?.Invoke();
         StartCoroutine(SizeSetAnimation(upMage, new Vector2(1944, 0f), 7f));

@@ -11,13 +11,16 @@ public class SkillIcon : MonoBehaviour
     public Skill myskill;
     public Unit mymy;
     bool isclick;
+    bool iscanclick;
 
     EventTrigger trigger;
+    Image image;
 
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Image>().sprite = skillicon;
+        image = GetComponent<Image>();
+        image.sprite = skillicon;
         trigger = GetComponent<EventTrigger>();
 
         AddEvent(trigger, EventTriggerType.PointerClick, OnClick);
@@ -28,7 +31,16 @@ public class SkillIcon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(mymy.actcount < myskill.useactcount)
+        {
+            iscanclick = false;
+            image.color = new Color32(152, 152, 152, 255);
+        }
+        else
+        {
+            iscanclick = true;
+            image.color = new Color32(255,255,255,255);
+        }
     }
 
     void AddEvent(EventTrigger trigger, EventTriggerType type, Action<PointerEventData> action)
@@ -51,15 +63,17 @@ public class SkillIcon : MonoBehaviour
 
     void OnClick(PointerEventData data)
     {
-        if (!isclick)
+        if(iscanclick)
         {
-            FightManager.fight.SkillBlaBla(gameObject);
-            isclick = true;
-            FightManager.fight.TargetFind(mymy, myskill);
-        }
-        else
-        { 
-            isclick = false;
+            if (!isclick)
+            {
+                isclick = true;
+                FightManager.fight.TargetFind(mymy, myskill);
+            }
+            else
+            {
+                isclick = false;
+            }
         }
     }
 
