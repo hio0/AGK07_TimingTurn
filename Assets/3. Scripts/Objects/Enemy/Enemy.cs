@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
         if (FightManager.fight.ifindtarget)
         {
             FightManager.fight.ActSet(gameObject.GetComponent<Unit>());
+            select.SetActive(false);
         }
         else
         {
@@ -36,7 +37,6 @@ public class Enemy : MonoBehaviour
 
     public void OnEnter()
     {
-        Debug.Log("fs");
         if (FightManager.fight.ifindtarget)
         {
             select.SetActive(true);
