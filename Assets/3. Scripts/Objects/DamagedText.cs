@@ -62,7 +62,7 @@ public class DamagedText : MonoBehaviour
             path = -70f;
         }
 
-        StartCoroutine(MovingAnimation(rec, new Vector2(rec.anchoredPosition.x + path, rec.anchoredPosition.y), 1.5f));
+        StartCoroutine(UIMovement.MovingAnimation(rec, new Vector2(rec.anchoredPosition.x + path, rec.anchoredPosition.y), 1.5f));
 
         while (time < fadeout)
         {
@@ -74,17 +74,5 @@ public class DamagedText : MonoBehaviour
 
         can.alpha = 0f;
         Destroy(gameObject);
-    }
-
-    IEnumerator MovingAnimation(RectTransform what, Vector2 target, float speed)
-    {
-        while (what.anchoredPosition != target)
-        {
-            float x = Mathf.Lerp(what.anchoredPosition.x, target.x, Time.deltaTime * speed);
-            float y = Mathf.Lerp(what.anchoredPosition.y, target.y, Time.deltaTime * speed);
-
-            what.anchoredPosition = new Vector2(x, y);
-            yield return null;
-        }
     }
 }

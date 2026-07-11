@@ -17,22 +17,24 @@ public abstract class Unit : MonoBehaviour
     public int actcount { get; set; }
     public float dodge_persent { get; set; }
 
+    public event Action OnActedStart; // 공격 시
+    public event Action OnActed; // 공격 적중 시
+    public event Action OnDamaged; // 피격 시
+    public event Action OnDyed; // 사망 시
+
+    // SerizalField private = inspector 상에선 보이게, 대신 캡슐화 / public = 다 가능 / 프로퍼티 = 외부에서 접근 가능, inspector에선 안보임.
+
     [Header("시스템")]
     public Unit targetedunit;
     public Skill selectedskill;
+    public GameObject icanselected;
 
     void Start()
     {
-        FightManager.fight.OnFightStarted += ResetToDefultValue;
-        FightManager.fight.OnWaitStarted += ResetActCount;
-    }
+        FightEvent.OnFightStarted += ResetToDefultValue;
+        FightEvent.OnWaitStarted += ResetActCount;
 
-    void Update()
-    {
-        if(hp <= 0)
-        {
-            Die();
-        }
+        icanselected.SetActive(false);
     }
 
     void OnValidate()
@@ -54,22 +56,31 @@ public abstract class Unit : MonoBehaviour
         actcount = unitdata.defultactcount;
     }
 
-    void Die()
+    public virtual void Act()
     {
+        OnActedStart?.Invoke();
+        Action act = () =>
+        {
+            OnActed?.Invoke();
+            selectedskill.Effect(targetedunit);
+        };
+        targetedunit.Damaged(act);
+    }
+
+    public virtual void Damaged(Action effect)
+    {
+        OnDamaged?.Invoke();
+        effect?.Invoke();
+
+        if (hp <= 0)
+        {
+            Die();
+        }
+    }
+
+    public virtual void Die()
+    {
+        OnDyed?.Invoke();
         Destroy(gameObject);
-    }
-
-    // 템플릿들
-    public void DefultHit(ICanDamaged target, int damage)
-    {
-
-    }
-
-
-    public void DefultAttack(Unit target, Action effect)
-    {
-        target.gameObject.TryGetComponent<ICanDamaged>(out ICanDamaged dam);
-        dam.OnDamaged += effect;
-        dam.Damaged();
     }
 }

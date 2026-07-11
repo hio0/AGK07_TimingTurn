@@ -2,24 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIMovement : MonoBehaviour
+public static class UIMovement
 {
-    public static UIMovement UIMove;
-
-    private void Awake()
-    {
-        if(UIMove == null)
-        {
-            UIMove = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    public IEnumerator FadeIn(CanvasGroup what, float fadeTime)
+    public static IEnumerator FadeInAnimation(CanvasGroup what, float fadeTime)
     {
         float time = 0f;
         what.gameObject.SetActive(true);
@@ -35,7 +20,7 @@ public class UIMovement : MonoBehaviour
         what.alpha = 1f;
     }
 
-    public IEnumerator FadeOut(CanvasGroup what, float fadeTime)
+    public static IEnumerator FadeOut(CanvasGroup what, float fadeTime)
     {
         float time = 0f;
         what.gameObject.SetActive(true);
@@ -50,5 +35,29 @@ public class UIMovement : MonoBehaviour
 
         what.alpha = 0f;
         what.gameObject.SetActive(false);
+    }
+
+    public static IEnumerator SizeSetAnimation(RectTransform what, Vector2 target, float speed)
+    {
+        while ((what.sizeDelta - target).sqrMagnitude > 0.001f)
+        {
+            float x = Mathf.Lerp(what.sizeDelta.x, target.x, Time.deltaTime * speed);
+            float y = Mathf.Lerp(what.sizeDelta.y, target.y, Time.deltaTime * speed);
+
+            what.sizeDelta = new Vector2(x, y);
+            yield return null;
+        }
+    }
+
+    public static IEnumerator MovingAnimation(RectTransform what, Vector2 target, float speed)
+    {
+        while ((what.anchoredPosition - target).sqrMagnitude > 0.001)
+        {
+            float x = Mathf.Lerp(what.anchoredPosition.x, target.x, Time.deltaTime * speed);
+            float y = Mathf.Lerp(what.anchoredPosition.y, target.y, Time.deltaTime * speed);
+
+            what.anchoredPosition = new Vector2(x, y);
+            yield return null;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public abstract class Skill : ScriptableObject
 {
@@ -20,9 +21,12 @@ public abstract class Skill : ScriptableObject
 
     public abstract void Effect(Unit target);
 
-    // 템플릿
-    public void DefultGiveEffect()
+    //템플릿
+    protected void Attack(int mindamage, int maxdamage, Unit target) // 자식만 접근 가능한 protected
     {
+        int damage = Random.Range(mindamage, maxdamage + 1);
 
+        target.hp -= damage;
+        FightManager.fight.HittedReaction(damage, target);
     }
 }

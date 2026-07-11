@@ -24,11 +24,6 @@ public class FightManager : MonoBehaviour
 
     bool isstop;
 
-    public event Action OnFightStarted; // 전투 돌입 시
-    public event Action OnWaitStarted; // 명령 페이즈 시작
-    public event Action OnTurnStarted; // 턴 시작 시
-    public event Action OnTurnFinished; // 턴 끝날 시
-
     [Header("UI")]
     public RectTransform upMage;
     public RectTransform downMage;
@@ -88,7 +83,7 @@ public class FightManager : MonoBehaviour
         {
             turncount++;
         };
-        OnTurnFinished += end;
+        FightEvent.OnTurnFinished += end;
     }
 
     // Update is called once per frame
@@ -132,7 +127,7 @@ public class FightManager : MonoBehaviour
 
         garimmack.sizeDelta = new Vector2(273.4f, 66.94f);
         garimmack.gameObject.SetActive(true);
-        StartCoroutine(SizeSetAnimation(garimmack, new Vector2(273.4f, 30f), 2f));
+        StartCoroutine(UIMovement.SizeSetAnimation(garimmack, new Vector2(273.4f, 30f), 2f));
 
         yield return new WaitForSeconds(2f);
         garimmack.gameObject.SetActive(false);
@@ -140,8 +135,8 @@ public class FightManager : MonoBehaviour
         CanvasGroup can = startP.GetComponent<CanvasGroup>();
         float second = 2f;
 
-        OnFightStarted?.Invoke();
-        StartCoroutine(UIMovement.UIMove.FadeOut(can, second));
+        FightEvent.OnFightStarted?.Invoke();
+        StartCoroutine(UIMovement.FadeOut(can, second));
 
         yield return new WaitForSeconds(second + 0.2f);
 
@@ -151,12 +146,12 @@ public class FightManager : MonoBehaviour
 
     IEnumerator WaitStart()
     {
-        OnWaitStarted?.Invoke();
+        FightEvent.OnWaitStarted?.Invoke();
         waitP.SetActive(false);
         turnstartB.SetActive(false);
 
-        StartCoroutine(SizeSetAnimation(upMage, new Vector2(1944, 197.9f), 3.5f));
-        StartCoroutine(SizeSetAnimation(downMage, new Vector2(1944, 272.3f), 3.5f));
+        StartCoroutine(UIMovement.SizeSetAnimation(upMage, new Vector2(1944, 197.9f), 3.5f));
+        StartCoroutine(UIMovement.SizeSetAnimation(downMage, new Vector2(1944, 272.3f), 3.5f));
 
         yield return new WaitForSeconds(1.5f);
 
@@ -285,7 +280,7 @@ public class FightManager : MonoBehaviour
 
         for (int i = 0; i < EnemyRange.childCount; i++)
         {
-            EnemyRange.GetChild(i).Find("Select").gameObject.SetActive(true);
+            EnemyRange.GetChild(i).GetChild(0).GetComponent<Unit>().icanselected.SetActive(true);
         }
     }
 
@@ -298,7 +293,7 @@ public class FightManager : MonoBehaviour
 
         for (int i = 0; i < EnemyRange.childCount; i++)
         {
-            EnemyRange.GetChild(i).Find("Select").gameObject.SetActive(false);
+            EnemyRange.GetChild(i).GetChild(0).GetComponent<Unit>().icanselected.SetActive(false);
         }
 
         GameObject arrow = enemy_arrows;
@@ -312,8 +307,7 @@ public class FightManager : MonoBehaviour
             findingunit.selectedskill = findingskill;
             findingunit.targetedunit = target;
 
-            findingunit.TryGetComponent<ICanAttack>(out ICanAttack dam);
-            dam.Attack();
+            findingunit.Act();
         };
 
         float timing = (float)Math.Round(findingskill.timing, 1); // 한자릿수까지
@@ -384,24 +378,11 @@ public class FightManager : MonoBehaviour
         NowSelectUnit(a);
     }
 
-    IEnumerator SizeSetAnimation(RectTransform what, Vector2 target, float speed)
-    {
-        while ((what.sizeDelta - target).sqrMagnitude > 0.001f)
-        {
-            float x = Mathf.Lerp(what.sizeDelta.x, target.x, Time.deltaTime * speed);
-            float y = Mathf.Lerp(what.sizeDelta.y, target.y, Time.deltaTime * speed);
-
-            what.sizeDelta = new Vector2(x, y);
-            yield return null;
-        }
-    }
-
     public void TurnStart()
     {
-        OnTurnStarted?.Invoke();
+        FightEvent.OnTurnStarted?.Invoke();
         isstop = false;
         OurRange.GetChild(unitselectednum).gameObject.transform.GetChild(0).Find("Select").gameObject.SetActive(false);
-        turnP.SetActive(true);
         waitP.SetActive(false);
 
         StartCoroutine(Act());
@@ -423,13 +404,12 @@ public class FightManager : MonoBehaviour
                 mftimer = (float)Math.Round(timer, 1);
                 timelinefill.fillAmount = timer / 3f;
 
-                /*
                 if (skillList.TryGetValue(mftimer, out Action action))
                 {
                     action?.Invoke();
                     isstop = true;
                     
-                    if(action.GetInvocationList().Length > 1)
+                    if(action.GetInvocationList().Length > 1) // 2인 이상 동시 행동
                     {
 
                     }
@@ -440,10 +420,10 @@ public class FightManager : MonoBehaviour
                     
                     yield return new WaitForSeconds(2f);
                     isstop = false;
+                    turnP.SetActive(false);
 
                     skillList.Remove(mftimer);
                 }
-                */
             }
 
             yield return null;
@@ -473,9 +453,9 @@ public class FightManager : MonoBehaviour
         }
         skillList.Clear();
 
-        OnTurnFinished?.Invoke();
-        StartCoroutine(SizeSetAnimation(upMage, new Vector2(1944, 0f), 7f));
-        yield return StartCoroutine(SizeSetAnimation(downMage, new Vector2(1944, 0f), 7f)); ;
+        FightEvent.OnTurnFinished?.Invoke();
+        StartCoroutine(UIMovement.SizeSetAnimation(upMage, new Vector2(1944, 0f), 7f));
+        yield return StartCoroutine(UIMovement.SizeSetAnimation(downMage, new Vector2(1944, 0f), 7f)); ;
 
         StartCoroutine(WaitStart());
     }

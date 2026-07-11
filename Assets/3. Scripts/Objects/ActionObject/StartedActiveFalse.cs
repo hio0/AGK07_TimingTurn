@@ -9,10 +9,10 @@ public class StartedActiveFalse : MonoBehaviour
     void Start()
     {
         Action fals = () => gameObject.SetActive(false);
-        FightManager.fight.OnFightStarted += fals;
+        FightEvent.OnFightStarted += fals;
 
         Action tr = () => gameObject.SetActive(true);
-        FightManager.fight.OnWaitStarted += tr;
+        FightEvent.OnWaitStarted += tr;
     }
 
     // Update is called once per frame

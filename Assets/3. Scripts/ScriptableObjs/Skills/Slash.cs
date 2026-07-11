@@ -14,9 +14,6 @@ public class Slash : Skill, IDamagedSkill
 
     public override void Effect(Unit target)
     {
-        int damage = UnityEngine.Random.Range(mindamage, maxdamage + 1);
-
-        target.hp -= damage;
-        FightManager.fight.HittedReaction(damage, target);
+        Attack(mindamage, maxdamage, target);
     }
 }

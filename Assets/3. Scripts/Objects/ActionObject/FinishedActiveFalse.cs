@@ -10,7 +10,7 @@ public class FinishedActiveFalse : MonoBehaviour
     {
         Action act = () => gameObject.SetActive(false);
 
-        FightManager.fight.OnTurnFinished += act;
+        FightEvent.OnTurnFinished += act;
     }
 
     // Update is called once per frame

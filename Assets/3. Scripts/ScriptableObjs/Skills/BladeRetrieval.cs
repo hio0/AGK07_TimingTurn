@@ -15,8 +15,6 @@ public class BladeRetrieval : Skill, IDamagedSkill
 
     public override void Effect(Unit target)
     {
-        int damage = UnityEngine.Random.Range(mindamage, maxdamage + 1);
-
-        FightManager.fight.HittedReaction(damage, target);
+        Attack(mindamage, maxdamage, target);
     }
 }
