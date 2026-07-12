@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public static class UIMovement
 {
-    public static IEnumerator FadeInAnimation(CanvasGroup what, float fadeTime)
+    public static IEnumerator FadeIn(CanvasGroup what, float fadeTime)
     {
         float time = 0f;
         what.gameObject.SetActive(true);
@@ -53,10 +54,22 @@ public static class UIMovement
     {
         while ((what.anchoredPosition - target).sqrMagnitude > 0.001)
         {
-            float x = Mathf.Lerp(what.anchoredPosition.x, target.x, Time.deltaTime * speed);
+            float x = Mathf.Lerp(what.anchoredPosition.x, target.x, Time.deltaTime * speed);  
             float y = Mathf.Lerp(what.anchoredPosition.y, target.y, Time.deltaTime * speed);
 
             what.anchoredPosition = new Vector2(x, y);
+            yield return null;
+        }
+    }
+
+    public static IEnumerator MovingAnimationWorld(RectTransform what, Vector3 target, float speed)
+    {
+        while ((what.position - target).sqrMagnitude > 0.001)
+        {
+            float x = Mathf.Lerp(what.position.x, target.x, Time.deltaTime * speed);
+            float y = Mathf.Lerp(what.position.y, target.y, Time.deltaTime * speed);
+
+            what.position = new Vector2(x, y);
             yield return null;
         }
     }

@@ -81,6 +81,6 @@ public abstract class Unit : MonoBehaviour
     public virtual void Die()
     {
         OnDyed?.Invoke();
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 }

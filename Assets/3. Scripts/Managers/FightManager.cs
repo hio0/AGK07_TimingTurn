@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
@@ -31,6 +32,7 @@ public class FightManager : MonoBehaviour
     public GameObject startP;
     public GameObject waitP;
     public GameObject turnP;
+    public Transform textP;
 
     public RectTransform garimmack;
     int turncount;
@@ -45,10 +47,11 @@ public class FightManager : MonoBehaviour
     public Transform actcounts_transform;
     public GameObject pre_actcounticon;
     public GameObject skillblabla;
-    public TMP_Text skillname;
-    public TMP_Text skilltype;
-    public TMP_Text skillexplanation;
-    public Transform blablaacs_transform;
+
+    public event Action OnSet_Skillblabla;
+    public event Action OnNonSet_Skillblabla;
+    public event Action OnSkillSet;
+    public event Action OnTargetFinding;
 
     public GameObject timeline;
     public Image timelinefill;
@@ -218,53 +221,19 @@ public class FightManager : MonoBehaviour
             GameObject b = Instantiate(pre_actcounticon, actcounts_transform);
         }
 
-        skillblabla.SetActive(false);
+        OnNonSet_Skillblabla?.Invoke();
     }
 
     public void SkillBlaBla(GameObject me)
     {
-        skillblabla.SetActive(true);
-        if (blablaacs_transform.childCount != 0)
-        {
-            for (int i = 0; i < blablaacs_transform.childCount; i++)
-            {
-                Destroy(blablaacs_transform.GetChild(i).gameObject);
-            }
-        }
-
         Skill nowskill = me.GetComponent<SkillIcon>().myskill;
-        skillname.text = nowskill.skillname;
 
-        if (nowskill.useactcount > 0)
+        skillblabla.GetComponent<SkillInfo>().Installize(nowskill);
+        OnSet_Skillblabla?.Invoke();
+        if(OnSet_Skillblabla.GetInvocationList().Length == 0)
         {
-            for (int i = 0; i < nowskill.useactcount; i++)
-            {
-                Instantiate(pre_actcounticon, blablaacs_transform);
-            }
+            Debug.Log("Fsfsfs");
         }
-
-        string howtoattack = null;
-        switch (nowskill.mytype)
-        {
-            case Skill.skilltype.closerange:
-                howtoattack = "근거리";
-                break;
-            case Skill.skilltype.longrange:
-                howtoattack = "원거리";
-                break;
-        }
-        skilltype.text = howtoattack;
-
-        string youarewhatskill = null;
-        switch (nowskill)
-        {
-            case IDamagedSkill dmg:
-                youarewhatskill += $"<color=#E57878>피해</color>: {dmg.mindamage} - {dmg.maxdamage}\n";
-                break;
-        }
-
-        float timing = (float)Math.Round(nowskill.timing, 1);
-        skillexplanation.text = $"<color=#F1BF3D><b>{timing}s</b></color>\n" + youarewhatskill + "\n" + nowskill.skillblabla;
     }
 
     public void TargetFind(Unit actor, Skill skill)
@@ -278,22 +247,16 @@ public class FightManager : MonoBehaviour
         findingskill = skill;
         findingunit = actor;
 
-        for (int i = 0; i < EnemyRange.childCount; i++)
-        {
-            EnemyRange.GetChild(i).GetChild(0).GetComponent<Unit>().icanselected.SetActive(true);
-        }
+        OnTargetFinding?.Invoke();
     }
 
     public void ActSet(Unit target)
     {
+        OnSkillSet?.Invoke();
+
         if (findingskill.useactcount > findingunit.actcount)
         {
             return;
-        }
-
-        for (int i = 0; i < EnemyRange.childCount; i++)
-        {
-            EnemyRange.GetChild(i).GetChild(0).GetComponent<Unit>().icanselected.SetActive(false);
         }
 
         GameObject arrow = enemy_arrows;
@@ -332,9 +295,9 @@ public class FightManager : MonoBehaviour
         }
 
         findingunit.actcount -= findingskill.useactcount;
-        for (int i = 0; i < findingskill.useactcount; i++)
+        for (int i = 0; i < actcounts_transform.childCount; i++)
         {
-            Destroy(blablaacs_transform.GetChild(i).gameObject);
+            Destroy(actcounts_transform.GetChild(i).gameObject);
         }
 
         bool isok = true;
@@ -363,10 +326,7 @@ public class FightManager : MonoBehaviour
         GameObject arr = Instantiate(arrow, b.transform);
 
         Arrow r = arr.GetComponent<Arrow>();
-        r.mytiming = timing;
-        r.myskill = findingskill;
-        r.me = findingunit;
-        r.targets = target;
+        r.Instalize(timing, findingskill, findingunit, target);
 
         ifindtarget = false;
 
@@ -382,7 +342,6 @@ public class FightManager : MonoBehaviour
     {
         FightEvent.OnTurnStarted?.Invoke();
         isstop = false;
-        OurRange.GetChild(unitselectednum).gameObject.transform.GetChild(0).Find("Select").gameObject.SetActive(false);
         waitP.SetActive(false);
 
         StartCoroutine(Act());
@@ -408,8 +367,8 @@ public class FightManager : MonoBehaviour
                 {
                     action?.Invoke();
                     isstop = true;
-                    
-                    if(action.GetInvocationList().Length > 1) // 2인 이상 동시 행동
+
+                    if (action.GetInvocationList().Length > 1) // 2인 이상 동시 행동
                     {
 
                     }
@@ -417,7 +376,7 @@ public class FightManager : MonoBehaviour
                     {
                         turnP.SetActive(true);
                     }
-                    
+
                     yield return new WaitForSeconds(2f);
                     isstop = false;
                     turnP.SetActive(false);
@@ -437,9 +396,22 @@ public class FightManager : MonoBehaviour
     public void HittedReaction(int damage, Unit target)
     {
         RectTransform rec = target.GetComponent<RectTransform>();
-        Vector2 vec = new Vector2(rec.anchoredPosition.x, rec.anchoredPosition.y);
 
-        GameObject b = Instantiate(pre_damageT, vec, Quaternion.Euler(0,0,0), turnP.transform);
+        GameObject b = Instantiate(pre_damageT, textP, false);
+        b.GetComponent<DamagedText>().Instalize(damage, true);
+
+        RectTransform brect = b.GetComponent<RectTransform>();
+        RectTransform bP = brect.parent as RectTransform;
+
+        // target의 화면 좌표
+        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, rec.position);
+
+        // damage의 부모 기준 로컬 좌표로 변환
+        Vector2 localPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(bP, screenPos, Camera.main, out localPos);
+
+        // 적용
+        brect.anchoredPosition = localPos;
     }
 
     IEnumerator TurnFinish()

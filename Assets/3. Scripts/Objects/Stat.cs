@@ -28,7 +28,7 @@ public class Stat : MonoBehaviour
         hp = myunit.hp;
         stamina = myunit.stamina;
 
-        hpbar.fillAmount = hp / myunit.unitdata.defulthp;
+        hpbar.fillAmount = hp / (float)myunit.unitdata.defulthp;
         hpT.text = $"{hp}/{myunit.unitdata.defulthp}";
 
         staminabar.fillAmount = stamina / myunit.unitdata.defultstamina;

@@ -3,27 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FinishedActiveFalse : MonoBehaviour
+public class CanSelected : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        FightEvent.OnTurnFinished += Act;
+        Action tr = () => gameObject.SetActive(true);
+        Action fa = () => gameObject.SetActive(false);
+
+        FightManager.fight.OnTargetFinding += tr;
+        FightManager.fight.OnSkillSet += fa;
     }
 
     // Update is called once per frame
     void Update()
     {
         
-    }
-
-    void Act()
-    {
-        Action act = () => gameObject.SetActive(false);
-    }
-
-    private void OnDestroy()
-    {
-        FightEvent.OnTurnFinished -= Act;
     }
 }

@@ -9,6 +9,15 @@ public class Arrow : MonoBehaviour
     public Unit me;
     public Unit targets;
 
+
+    public void Instalize(float a, Skill b, Unit c, Unit d)
+    {
+        mytiming = a;
+        myskill = b;
+        me = c;
+        targets = d;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

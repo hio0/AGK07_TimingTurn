@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,6 +12,12 @@ public class DamagedText : MonoBehaviour
     TMP_Text childtext;
     RectTransform rec;
 
+    public void Instalize(int dam, bool right)
+    {
+        damage = dam;
+        isright = right;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,19 +27,14 @@ public class DamagedText : MonoBehaviour
         childtext.text = "-" + damage.ToString("000");
 
         rec = GetComponent<RectTransform>();
-        /*
 
-        float x = 0f;
-        if (isright)
+        float x = 150f;
+        if (!isright)
         {
-            x = 70f;
+            x = -x;
         }
-        else
-        {
-            x = -70f;
-        }
-        rec.position = new Vector2(rec.position.x + x, rec.position.y + 80f);
-                */
+        rec.anchoredPosition = new Vector2(rec.anchoredPosition.x + x, Mathf.Abs(rec.anchoredPosition.y));
+
         StartCoroutine(Animation(damage));
 
     }
@@ -46,29 +48,22 @@ public class DamagedText : MonoBehaviour
     IEnumerator Animation(int changed)
     {
         CanvasGroup can = GetComponent<CanvasGroup>();
-
         float time = 0f;
         float fadeout = 2f;
 
         can.alpha = 1f;
 
-        float path = 0f;
-        if(isright)
+        float path = 50f;
+        if(!isright)
         {
-            path = 70f;
+            path = -path;
         }
-        else
-        {
-            path = -70f;
-        }
-
-        StartCoroutine(UIMovement.MovingAnimation(rec, new Vector2(rec.anchoredPosition.x + path, rec.anchoredPosition.y), 1.5f));
+        StartCoroutine(UIMovement.MovingAnimation(rec, new Vector2(rec.anchoredPosition.x + path, rec.anchoredPosition.y), 0.5f));
 
         while (time < fadeout)
         {
             time += Time.deltaTime;
             can.alpha = Mathf.Lerp(1f, 0f, time / fadeout);
-
             yield return null;
         }
 
