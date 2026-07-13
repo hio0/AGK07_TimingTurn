@@ -230,10 +230,6 @@ public class FightManager : MonoBehaviour
 
         skillblabla.GetComponent<SkillInfo>().Installize(nowskill);
         OnSet_Skillblabla?.Invoke();
-        if(OnSet_Skillblabla.GetInvocationList().Length == 0)
-        {
-            Debug.Log("Fsfsfs");
-        }
     }
 
     public void TargetFind(Unit actor, Skill skill)
@@ -416,6 +412,7 @@ public class FightManager : MonoBehaviour
 
     IEnumerator TurnFinish()
     {
+        waitP.SetActive(false);
         turnP.SetActive(false);
         timeline.SetActive(false);
         timelinefill.gameObject.SetActive(false);

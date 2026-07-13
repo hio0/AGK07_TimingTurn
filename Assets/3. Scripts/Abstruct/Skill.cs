@@ -28,5 +28,6 @@ public abstract class Skill : ScriptableObject
 
         target.hp -= damage;
         FightManager.fight.HittedReaction(damage, target);
+        FightEvent.OnDamaged?.Invoke();
     }
 }

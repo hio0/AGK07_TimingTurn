@@ -9,4 +9,15 @@ public static class FightEvent // fight 씬에서만 사용되는 스크립튼�
     public static Action OnWaitStarted; // 명령 페이즈 시작
     public static Action OnTurnStarted; // 턴 시작 시
     public static Action OnTurnFinished; // 턴 끝날 시
+
+    public static Action OnDamaged; // 퍄해 입을 때
+
+    public static void ClearEvent()
+    {
+        OnFightStarted = null;
+        OnWaitStarted = null;
+        OnTurnStarted = null;
+        OnTurnFinished = null;
+        OnDamaged = null;
+    }
 }

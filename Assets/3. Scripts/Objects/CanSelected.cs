@@ -13,6 +13,8 @@ public class CanSelected : MonoBehaviour
 
         FightManager.fight.OnTargetFinding += tr;
         FightManager.fight.OnSkillSet += fa;
+
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame

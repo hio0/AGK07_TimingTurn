@@ -9,4 +9,9 @@ public static class DOTween
     {
         what.DOShakePosition(0.5f, strength, vibrato, randomess);
     }
+
+    public static void DOFade(CanvasGroup what, float howmuch, float time)
+    {
+        what.DOFade(howmuch, time);
+    }
 }
