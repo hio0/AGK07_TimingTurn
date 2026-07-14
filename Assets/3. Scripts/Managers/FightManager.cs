@@ -38,7 +38,7 @@ public class FightManager : MonoBehaviour
     int turncount;
     public TMP_Text turnT;
 
-    int unitselectednum;
+    public int unitselectednum;
     Unit nowselectedUnit;
     public Transform skills_transform;
     public Image pre_skillicon;
@@ -52,6 +52,7 @@ public class FightManager : MonoBehaviour
     public event Action OnNonSet_Skillblabla;
     public event Action OnSkillSet;
     public event Action OnTargetFinding;
+    public event Action OnNextUnit;
 
     public GameObject timeline;
     public Image timelinefill;
@@ -168,9 +169,10 @@ public class FightManager : MonoBehaviour
 
     public void NowSelectUnit(int now)
     {
-        OurRange.GetChild(unitselectednum).gameObject.transform.GetChild(0).Find("Select").gameObject.SetActive(false);
-
+        ifindtarget = false;
         unitselectednum = now;
+
+        OnNextUnit?.Invoke();
         if (unitselectednum > OurRange.childCount)
         {
             unitselectednum = OurRange.childCount - 1;
@@ -178,10 +180,11 @@ public class FightManager : MonoBehaviour
         else if (unitselectednum < 0)
         {
             unitselectednum = 0;
+            return;
         }
         GameObject b = OurRange.GetChild(unitselectednum).gameObject.transform.GetChild(0).gameObject;
+        // ∞¡ unitø° º¯º≠ ±Õº”Ω√≈∞º¿
         nowselectedUnit = b.GetComponent<Unit>();
-        b.transform.Find("Select").gameObject.SetActive(true);
 
         SetWaitPanel();
     }
@@ -258,6 +261,11 @@ public class FightManager : MonoBehaviour
                 return;
             }
 
+            for (int i = 0; i < findingskill.useactcount; i++)
+            {
+                Destroy(actcounts_transform.GetChild(i).gameObject);
+            }
+
             arrow = player_arrows;
 
             ifindtarget = false;
@@ -300,10 +308,6 @@ public class FightManager : MonoBehaviour
         }
 
         findingunit.actcount -= findingskill.useactcount;
-        for (int i = 0; i < actcounts_transform.childCount; i++)
-        {
-            Destroy(actcounts_transform.GetChild(i).gameObject);
-        }
 
         bool isok = true;
         GameObject b = null;
@@ -366,7 +370,7 @@ public class FightManager : MonoBehaviour
 
                     if (action.GetInvocationList().Length > 1) // 2¿Œ ¿ÃªÛ µøΩ√ «‡µø
                     {
-
+                        turnP.SetActive(true);
                     }
                     else
                     {
@@ -400,7 +404,7 @@ public class FightManager : MonoBehaviour
 
         GameObject b = Instantiate(pre_damageT, textP, false);
         b.GetComponent<DamagedText>().Instalize(damage, true);
-        b.GetComponent<DamagedText>().isright = isour;
+        b.GetComponent<DamagedText>().isright = !isour;
 
         RectTransform brect = b.GetComponent<RectTransform>();
         RectTransform bP = brect.parent as RectTransform;

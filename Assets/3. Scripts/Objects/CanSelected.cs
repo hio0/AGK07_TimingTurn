@@ -17,6 +17,7 @@ public class CanSelected : MonoBehaviour
 
         Action fa = () => can.alpha = 0f;
         FightManager.fight.OnSkillSet += fa;
+        FightManager.fight.OnNextUnit += fa;
     }
 
     // Update is called once per frame

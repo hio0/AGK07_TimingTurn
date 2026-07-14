@@ -8,12 +8,13 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject select;
+    public event Action OnEnemyEnter;
+    public event Action OnEnemyClick;
+    public event Action OnEnemyExit;
 
     // Start is called before the first frame update
     void Start()
     {
-        select.SetActive(false);
         FightEvent.OnWaitStarted += ActSet;
     }
 
@@ -23,7 +24,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    void ActSet()
+    protected virtual void ActSet()
     {
         Transform ourrange = GameObject.Find("OurRange").transform;
         int r = UnityEngine.Random.Range(0, ourrange.childCount);
@@ -38,12 +39,12 @@ public class Enemy : MonoBehaviour
         FightManager.fight.ActSet(unit);
     }
 
-    public void OnClick()
+    public virtual void OnClick()
     {
         if (FightManager.fight.ifindtarget)
         {
             FightManager.fight.ActSet(gameObject.GetComponent<Unit>());
-            select.SetActive(false);
+            OnEnemyClick?.Invoke();
         }
         else
         {
@@ -51,19 +52,19 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void OnEnter()
+    public virtual void OnEnter()
     {
         if (FightManager.fight.ifindtarget)
         {
-            select.SetActive(true);
+            OnEnemyEnter?.Invoke();
         }
     }
 
-    public void OnExit()
+    public virtual void OnExit()
     {
         if (FightManager.fight.ifindtarget)
         {
-            select.SetActive(false);
+            OnEnemyExit?.Invoke();
         }
     }
 }
