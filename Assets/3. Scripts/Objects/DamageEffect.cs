@@ -10,7 +10,12 @@ public class DamageEffect : MonoBehaviour
     void Start()
     {
         can = GetComponent<CanvasGroup>();
-        FightEvent.OnDamaged += Act;
+        Action act = () =>
+        {
+            can.alpha = 1f;
+            DOTween.DOFade(can, 0, 1f);
+        };
+        FightEvent.OnDamaged += act;
 
         can.alpha = 0f;
     }
@@ -19,11 +24,5 @@ public class DamageEffect : MonoBehaviour
     void Update()
     {
 
-    }
-
-    void Act()
-    {
-        can.alpha = 1f;
-        DOTween.DOFade(can, 0, 1f);
     }
 }

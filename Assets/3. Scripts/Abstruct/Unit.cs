@@ -27,14 +27,11 @@ public abstract class Unit : MonoBehaviour
     [Header("시스템")]
     public Unit targetedunit;
     public Skill selectedskill;
-    public GameObject icanselected;
 
     void Start()
     {
         FightEvent.OnFightStarted += ResetToDefultValue;
         FightEvent.OnWaitStarted += ResetActCount;
-
-        icanselected.SetActive(false);
     }
 
     void OnValidate()

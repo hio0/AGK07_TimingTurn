@@ -248,17 +248,26 @@ public class FightManager : MonoBehaviour
 
     public void ActSet(Unit target)
     {
-        OnSkillSet?.Invoke();
-
-        if (findingskill.useactcount > findingunit.actcount)
-        {
-            return;
-        }
-
         GameObject arrow = enemy_arrows;
         if (findingunit.transform.parent.parent.name == "OurRange")
         {
+            OnSkillSet?.Invoke();
+
+            if (findingskill.useactcount > findingunit.actcount)
+            {
+                return;
+            }
+
             arrow = player_arrows;
+
+            ifindtarget = false;
+
+            int a = unitselectednum - 1;
+            if (a < 0)
+            {
+                turnstartB.SetActive(true);
+            }
+            NowSelectUnit(a);
         }
 
         Action actready = () =>
@@ -323,15 +332,6 @@ public class FightManager : MonoBehaviour
 
         Arrow r = arr.GetComponent<Arrow>();
         r.Instalize(timing, findingskill, findingunit, target);
-
-        ifindtarget = false;
-
-        int a = unitselectednum - 1;
-        if (a < 0)
-        {
-            turnstartB.SetActive(true);
-        }
-        NowSelectUnit(a);
     }
 
     public void TurnStart()
@@ -392,9 +392,15 @@ public class FightManager : MonoBehaviour
     public void HittedReaction(int damage, Unit target)
     {
         RectTransform rec = target.GetComponent<RectTransform>();
+        bool isour = false;
+        if(target.transform.parent.parent.name == "OurRange")
+        {
+            isour = true;
+        }
 
         GameObject b = Instantiate(pre_damageT, textP, false);
         b.GetComponent<DamagedText>().Instalize(damage, true);
+        b.GetComponent<DamagedText>().isright = isour;
 
         RectTransform brect = b.GetComponent<RectTransform>();
         RectTransform bP = brect.parent as RectTransform;

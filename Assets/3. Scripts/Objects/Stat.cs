@@ -8,9 +8,6 @@ using UnityEngine.UI;
 public class Stat : MonoBehaviour
 {
     Unit myunit;
-    int hp;
-    int stamina;
-
     public Image hpbar;
     public TMP_Text hpT;
 
@@ -25,12 +22,9 @@ public class Stat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hp = myunit.hp;
-        stamina = myunit.stamina;
+        hpbar.fillAmount = myunit.hp / (float)myunit.unitdata.defulthp;
+        hpT.text = $"{myunit.hp}/{myunit.unitdata.defulthp}";
 
-        hpbar.fillAmount = hp / (float)myunit.unitdata.defulthp;
-        hpT.text = $"{hp}/{myunit.unitdata.defulthp}";
-
-        staminabar.fillAmount = stamina / myunit.unitdata.defultstamina;
+        staminabar.fillAmount = myunit.stamina / myunit.unitdata.defultstamina;
     }
 }

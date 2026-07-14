@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class CanSelected : MonoBehaviour
 {
-    // Start is called before the first frame update
+    CanvasGroup can;
+
     void Start()
     {
-        Action tr = () => gameObject.SetActive(true);
-        Action fa = () => gameObject.SetActive(false);
+        can = GetComponent<CanvasGroup>();
+        can.alpha = 0;
 
+        Action tr = () => can.alpha = 1f;
         FightManager.fight.OnTargetFinding += tr;
-        FightManager.fight.OnSkillSet += fa;
 
-        gameObject.SetActive(false);
+        Action fa = () => can.alpha = 0f;
+        FightManager.fight.OnSkillSet += fa;
     }
 
     // Update is called once per frame
